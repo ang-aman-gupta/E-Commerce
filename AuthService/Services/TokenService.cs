@@ -32,15 +32,15 @@ namespace AuthService.Services
             claims.AddRange(userRoles.Select(role => new Claim(ClaimTypes.Role, role)));
 
             var key  = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["Token:Key"]));
-            var cred = new SigningCredentials(key,SecurityAlgorithms.HmacSha512Signature);
+            var cred = new SigningCredentials(key,SecurityAlgorithms.HmacSha256);
 
             var descriptor = new SecurityTokenDescriptor
             {
                 Subject = new ClaimsIdentity(claims),
                 Expires = DateTime.UtcNow.AddHours(1),
                 SigningCredentials = cred,
-                Issuer = "AuthService",
-                Audience = "ECommerceAPI"
+                Issuer = _config["Token:Issuer"],
+                Audience = _config["Token:Audience"]
             };
 
             var tokenHandler = new JwtSecurityTokenHandler();

@@ -9,7 +9,10 @@ namespace AuthService.Services
 
         public KafkaProducerService(IConfiguration configuration)
         {
-            var config = new ProducerConfig { BootstrapServers = "localhost:9092" };
+            var config = new ProducerConfig { 
+                BootstrapServers = "localhost:9092",
+
+            };
             _producer = new ProducerBuilder<string,string>(config).Build();
 
         }

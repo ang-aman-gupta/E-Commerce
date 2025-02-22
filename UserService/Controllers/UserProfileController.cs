@@ -1,6 +1,4 @@
 ﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 using UserService.DTO;
@@ -47,6 +45,7 @@ namespace UserService.Controllers
         [Authorize]
         public async ValueTask<IActionResult> GetUserProfileAsync()
         {
+            var token = Request.Headers["Authorization"];
             var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
             if (userId == null) return Unauthorized();
 
